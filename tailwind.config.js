@@ -8,6 +8,13 @@ export default {
       maxWidth: {
         'custom-container': '1200px',
       },
+      colors: {
+        pink: {
+          light: '#ff66a1',
+          DEFAULT: '#fc057b', // Pink color
+          dark: '#c00460',
+        },
+      },
     },
   },
   plugins: [daisyui],

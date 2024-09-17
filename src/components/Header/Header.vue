@@ -4,7 +4,7 @@ import UserInfo from './UserInfo/UserInfo.vue';
 </script>
 
 <template>
-  <div class="max-w-custom-container px-3 mx-auto">
+  <div class="max-w-custom-container min-w-[1200px] px-3 mx-auto">
     <header class="flex justify-between py-4">
       <div>
         <img src="../../assets/logo.png" alt="Dopamine 100 Logo" />
@@ -17,8 +17,7 @@ import UserInfo from './UserInfo/UserInfo.vue';
     </header>
 
     <div
-      class="flex justify-between items-center px-[40px] py-[12px] rounded-[20px] bg-white"
-    >
+      class="flex justify-between items-center px-[40px] py-[12px] rounded-[20px] bg-white">
       <Navigation />
       <UserInfo />
     </div>
