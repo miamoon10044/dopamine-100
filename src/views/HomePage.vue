@@ -510,7 +510,7 @@ const formatTime = (value) => {
           </div>
         </div>
 
-        <div class="pt-4">
+        <div class="pt-4 mb-1">
           <button
             class="btn text-white shadow-none border-none bg-pink hover:bg-pink-600 w-full py-2 min-h-0 h-auto">
             <img src="../assets/icons/icon-dp.png" alt="" />
@@ -599,7 +599,7 @@ const formatTime = (value) => {
             自分のランキングを確認する
           </button>
 
-          <div class="flex flex-row items-center justify-center mt-4">
+          <div class="flex flex-row items-center justify-center mt-4 mb-1">
             <p class="text-[11px] mr-2 text-gray-400">
               Season rewards sponsored by
             </p>
@@ -616,7 +616,6 @@ const formatTime = (value) => {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* TODO: Move colors to themes */
 
 .main-banner {
