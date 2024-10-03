@@ -13,6 +13,9 @@ import UserInfo from './UserInfo/UserInfo.vue';
         <li><a href="#">Game Rules</a></li>
         <li><a href="#">FAQ</a></li>
         <li><a href="#">DP ads</a></li>
+
+        <li><router-link to="/login">Login</router-link></li>
+        <li><router-link to="/signup">Register</router-link></li>
       </ul>
     </header>
 

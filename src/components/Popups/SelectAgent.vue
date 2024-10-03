@@ -127,7 +127,7 @@ const setActiveCard = (index) => {
           }">
           <!-- Holographic Shine Layer -->
           <div
-            class="absolute inset-0 z-20 opacity-0 transition-opacity duration-500 shine"
+            class="absolute inset-0 z-20 opacity-0 transition-opacity duration-500 shine-effect shine"
             ref="shineRefs"></div>
 
           <!-- Holographic Gradient -->
@@ -231,5 +231,37 @@ const setActiveCard = (index) => {
 /* Enhance shadow for more depth */
 .shadow-lg {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.shine-effect {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.group:hover .shine-effect {
+  animation: lightningEffect 1.5s infinite linear;
+}
+
+@keyframes lightningEffect {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%) rotate(20deg) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50%) rotate(-20deg) scale(1);
+  }
 }
 </style>
