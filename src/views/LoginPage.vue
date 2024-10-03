@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-around w-[900px] m-auto gap-10 items-start py-12 px-8 bg-white rounded-3xl shadow-sm">
+    class="flex justify-around w-[900px] m-auto gap-10 items-center py-12 px-8 bg-white rounded-3xl shadow-sm">
     <div class="text-center">
       <img src="../assets/ads/ads-1.png" alt="" />
       <p class="mt-3">Ad Title Here</p>
@@ -18,18 +18,6 @@
             placeholder="Enter your username"
             class="input input-bordered w-full"
             v-model="username" />
-        </div>
-
-        <!-- Email Field -->
-        <div>
-          <label class="label">
-            <span class="label-text">Email</span>
-          </label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            class="input input-bordered w-full"
-            v-model="email" />
         </div>
 
         <!-- Password Field -->

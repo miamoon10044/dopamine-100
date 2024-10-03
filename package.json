@@ -15,6 +15,7 @@
     "@mdi/js": "^7.4.47",
     "swiper": "^11.1.12",
     "vue": "^3.4.37",
+    "vue-i18n": "^10.0.0",
     "vue-material-design-icons": "^5.3.0",
     "vue-router": "^4.0.13"
   },
