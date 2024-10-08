@@ -1,12 +1,47 @@
 {
   "header": {
-    "Game_Rules": "Game Rules KR",
+    "Game_Rules": "게임 규칙",
     "FAQ": "FAQ",
-    "DP_Ads": "DP Ads",
-    "Login": "Login",
-    "Register": "Register",
-    "en": "English",
-    "ja": "Japanese",
-    "ko": "한글"
+    "DP_Ads": "DP 광고",
+    "Login": "로그인",
+    "Register": "회원가입",
+    "en": "영어",
+    "ja": "일본어",
+    "ko": "한국어"
+  },
+  "navigation": {
+    "Lobby": "로비",
+    "Webtoon": "웹툰",
+    "Games": "게임",
+    "Community": "커뮤니티",
+    "Store": "스토어",
+    "Customer": "고객 서비스"
+  },
+  "select_agent": {
+    "title": "당신의 <span class='text-pink'>에이전트</span>를 선택하세요",
+    "subtitle": "지정된 에이전트와의 캐주얼한 대화부터 프로모션 논의까지 다양한 유형의 커뮤니케이션을 할 수 있습니다.",
+    "confirm": "에이전트 확인",
+    "please_select": "에이전트를 선택하세요"
+  },
+  "home": {
+    "banner_title": "진행 중인 프로모션",
+    "slot_promo_title": "즐길 수 있는 무료 슬롯 게임",
+    "slot_promo_tab_btn1": "실시간 당첨",
+    "slot_promo_tab_btn2": "최고 당첨 금액 및 상품",
+    "realtime_table_date": "날짜",
+    "realtime_table_game": "게임",
+    "realtime_table_bet_amount": "베팅 금액",
+    "realtime_table_multiply": "배수",
+    "realtime_table_winning": "당첨 금액",
+    "realtime_table_replay": "다시 보기",
+    "temporary_account": "임시 계정",
+    "spin_race": "스핀 레이스",
+    "season_rewards_sponsored_by": "시즌 보상 후원사"
+  },
+  "btn": {
+    "see_all": "모두 보기",
+    "play": "플레이",
+    "cta": "3초 로그인",
+    "check_ranking": "랭킹 확인"
   }
 }

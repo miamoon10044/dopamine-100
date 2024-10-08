@@ -47,15 +47,8 @@ const agents = ref([
       <img src="../../assets/logo.png" alt="" />
 
       <div class="mt-[54px] text-center">
-        <h2 class="text-[32px] mb-5">
-          Please select your
-          <span class="text-pink">Agent</span>
-        </h2>
-        <p class="text-gray-400">
-          担当エージェントと軽い会話からプロモーションに至るまで、
-          <br />
-          様々なコミュニケーションを取ることができますよ。
-        </p>
+        <h2 class="text-[32px] mb-5" v-html="$t('select_agent.title')"></h2>
+        <p class="text-gray-400" v-html="$t('select_agent.subtitle')"></p>
       </div>
 
       <div
@@ -71,9 +64,9 @@ const agents = ref([
         <button
           class="btn shadow-none bg-pink text-white rounded-3xl px-[80px] py-4 mt-3 text-sm min-h-[auto] h-[auto] leading-none max-w-[auto] hover:bg-pink-600"
           @click="openModal = false">
-          Confirm Agent
+          {{ $t('select_agent.confirm') }}
         </button>
-        <p class="text-pink mt-6">Please select your agent</p>
+        <p class="text-pink mt-6">{{ $t('select_agent.please_select') }}</p>
       </div>
     </div>
 

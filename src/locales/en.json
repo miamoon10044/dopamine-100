@@ -8,5 +8,40 @@
     "en": "English",
     "ja": "日本語",
     "ko": "한글"
+  },
+  "navigation": {
+    "Lobby": "Lobby",
+    "Webtoon": "Webtoon",
+    "Games": "Games",
+    "Community": "Community",
+    "Store": "Store",
+    "Customer": "Customer"
+  },
+  "select_agent": {
+    "title": "Please select your <span class='text-pink'>Agent</span>",
+    "subtitle": "You can engage in various types of communication, <br /> from casual conversations with your assigned agent to discussing promotions.",
+    "confirm": "Confirm Agent",
+    "please_select": "Please select your agent"
+  },
+  "home": {
+    "banner_title": "Ongoing Promotions",
+    "slot_promo_title": "Free Slot Games to Enjoy",
+    "slot_promo_tab_btn1": "Real-time Wins",
+    "slot_promo_tab_btn2": "Top Prizes and Rewards",
+    "realtime_table_date": "Date",
+    "realtime_table_game": "Game",
+    "realtime_table_bet_amount": "Bet Amount",
+    "realtime_table_multiply": "Multiply",
+    "realtime_table_winning": "Winning",
+    "realtime_table_replay": "Replay",
+    "temporary_account": "Temporary Account",
+    "spin_race": "Spin Race",
+    "season_rewards_sponsored_by": "Season rewards sponsored by"
+  },
+  "btn": {
+    "see_all": "See All",
+    "play": "Play",
+    "cta": "Login in 3s",
+    "check_ranking": "Check your ranking"
   }
 }

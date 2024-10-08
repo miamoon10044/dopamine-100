@@ -33,11 +33,11 @@ const formatTime = (value) => {
               class="h-[24px] w-[24px] mr-2"
               src="../assets/icons/icon-box.png"
               alt="" />
-            <h3 class="text-sm">げんざいしんこうちゅうのプロモーション</h3>
+            <h3 class="text-sm">{{ $t('home.banner_title') }}</h3>
           </div>
           <button
             class="btn bg-white rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
-            すべてを見る
+            {{ $t('btn.see_all') }}
           </button>
         </div>
 
@@ -61,11 +61,11 @@ const formatTime = (value) => {
               class="h-[20px] w-[20px] mr-2"
               src="../assets/icons/icon-stars.png"
               alt="" />
-            <h3 class="text-sm">無料で楽しめるスロットゲーム</h3>
+            <h3 class="text-sm">{{ $t('home.slot_promo_title') }}</h3>
           </div>
           <button
             class="btn shadow-none rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
-            すべてを見る
+            {{ $t('btn.see_all') }}
           </button>
         </div>
 
@@ -347,11 +347,11 @@ const formatTime = (value) => {
               class="h-[20px] w-[20px] mr-2"
               src="../assets/icons/icon-stars.png"
               alt="" />
-            <h3 class="text-sm">無料で楽しめるスロットゲーム</h3>
+            <h3 class="text-sm">{{ $t('home.slot_promo_title') }}</h3>
           </div>
           <button
             class="btn shadow-none rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
-            すべてを見る
+            {{ $t('btn.see_all') }}
           </button>
         </div>
 
@@ -359,11 +359,11 @@ const formatTime = (value) => {
           <div class="flex flex-row gap-3">
             <button
               class="btn shadow-none text-xs py-3 px-5 rounded-3xl min-h-[auto] h-[auto] leading-none bg-[#f2f4f7] hover:bg-[#e4e6e9] hover:border-[#e4e6e9]">
-              실시간 당첨
+              {{ $t('home.slot_promo_tab_btn1') }}
             </button>
             <button
               class="btn btn-outline py-3 px-5 text-xs rounded-3xl min-h-[auto] h-[auto] border-[#f2f4f7] leading-none hover:bg-[#e4e6e9] hover:text-[#333] hover:border-[#e4e6e9]">
-              최고 당첨 금액 및 상품
+              {{ $t('home.slot_promo_tab_btn2') }}
             </button>
           </div>
 
@@ -373,13 +373,21 @@ const formatTime = (value) => {
               <thead>
                 <tr>
                   <th class="text-left py-3">#</th>
-                  <th>Date</th>
-                  <th>Game</th>
+                  <th>{{ $t('home.realtime_table_date') }}</th>
+                  <th>{{ $t('home.realtime_table_game') }}</th>
                   <th>ID</th>
-                  <th class="text-right">Bet Amount</th>
-                  <th class="text-right">Multiply</th>
-                  <th class="text-right">Winning</th>
-                  <th class="text-center">Replay</th>
+                  <th class="text-right">
+                    {{ $t('home.realtime_table_bet_amount') }}
+                  </th>
+                  <th class="text-right">
+                    {{ $t('home.realtime_table_multiply') }}
+                  </th>
+                  <th class="text-right">
+                    {{ $t('home.realtime_table_winning') }}
+                  </th>
+                  <th class="text-center">
+                    {{ $t('home.realtime_table_replay') }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -394,7 +402,7 @@ const formatTime = (value) => {
                     <span class="font-bold">$3,240</span>
                   </td>
                   <td class="text-center">
-                    <a class="text-blue-500" href="#">Play</a>
+                    <a class="text-blue-500" href="#">{{ $t('btn.play') }}</a>
                   </td>
                 </tr>
                 <tr class="hover border-0">
@@ -408,7 +416,7 @@ const formatTime = (value) => {
                     <span class="font-bold">Macbook Pro 16"</span>
                   </td>
                   <td class="text-center">
-                    <a class="text-blue-500" href="#">Play</a>
+                    <a class="text-blue-500" href="#">{{ $t('btn.play') }}</a>
                   </td>
                 </tr>
                 <tr class="hover border-0">
@@ -426,7 +434,7 @@ const formatTime = (value) => {
                     <span class="font-bold">$5,325</span>
                   </td>
                   <td class="text-center">
-                    <a class="text-blue-500" href="#">Play</a>
+                    <a class="text-blue-500" href="#">{{ $t('btn.play') }}</a>
                   </td>
                 </tr>
                 <tr class="hover border-0">
@@ -440,7 +448,7 @@ const formatTime = (value) => {
                     <span class="font-bold">$3,240</span>
                   </td>
                   <td class="text-center">
-                    <a class="text-blue-500" href="#">Play</a>
+                    <a class="text-blue-500" href="#">{{ $t('btn.play') }}</a>
                   </td>
                 </tr>
                 <tr class="hover border-0">
@@ -454,7 +462,7 @@ const formatTime = (value) => {
                     <span class="font-bold">$123,240</span>
                   </td>
                   <td class="text-center">
-                    <a class="text-blue-500" href="#">Play</a>
+                    <a class="text-blue-500" href="#">{{ $t('btn.play') }}</a>
                   </td>
                 </tr>
               </tbody>
@@ -473,7 +481,9 @@ const formatTime = (value) => {
               <img class="mr-2" src="../assets/comments/user-1.png" alt="" />
               <div class="flex flex-col">
                 <h4 class="text-[13px] font-bold">Bunny Pop</h4>
-                <p class="m-0 text-[11px]">Temporary Account</p>
+                <p class="m-0 text-[11px]">
+                  {{ $t('home.temporary_account') }}
+                </p>
               </div>
             </div>
             <div class="flex gap-2">
@@ -514,7 +524,7 @@ const formatTime = (value) => {
           <button
             class="btn text-white shadow-none border-none bg-pink hover:bg-pink-600 w-full py-2 min-h-0 h-auto">
             <img src="../assets/icons/icon-dp.png" alt="" />
-            3秒でログイン
+            {{ $t('btn.cta') }}
           </button>
         </div>
       </section>
@@ -523,7 +533,9 @@ const formatTime = (value) => {
         <div
           class="countdown-container flex justify-between items-start flex-row mb-4">
           <div>
-            <h3 class="text-sm color-[#474747] mb-1">Spin Race</h3>
+            <h3 class="text-sm color-[#474747] mb-1">
+              {{ $t('home.spin_race') }}
+            </h3>
 
             <countdown :time="timeUntilNextMonth" @end="resetCountdown">
               <template #default="{ days, hours, minutes, seconds }">
@@ -550,7 +562,7 @@ const formatTime = (value) => {
           </div>
           <button
             class="btn shadow-none rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
-            すべてを見る
+            {{ $t('btn.see_all') }}
           </button>
         </div>
         <div class="flex flex-col">
@@ -596,12 +608,12 @@ const formatTime = (value) => {
 
           <button
             class="btn shadow-none rounded-3xl px-5 py-4 mt-3 text-xs min-h-[auto] h-[auto] leading-none">
-            自分のランキングを確認する
+            {{ $t('btn.check_ranking') }}
           </button>
 
           <div class="flex flex-row items-center justify-center mt-4 mb-1">
             <p class="text-[11px] mr-2 text-gray-400">
-              Season rewards sponsored by
+              {{ $t('home.season_rewards_sponsored_by') }}
             </p>
             <img class="w-[100px]" src="../assets/logo.png" alt="" />
           </div>

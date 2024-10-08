@@ -4,27 +4,27 @@
   <nav class="flex items-center gap-[30px]">
     <RouterLink to="/">
       <img src="../../../assets/icons/icon-home.png" alt="" />
-      Lobby
+      {{ $t('navigation.Lobby') }}
     </RouterLink>
     <RouterLink to="/about">
       <img src="../../../assets/icons/icon-webtoon.png" alt="" />
-      Webtoon
+      {{ $t('navigation.Webtoon') }}
     </RouterLink>
     <RouterLink to="/about">
       <img src="../../../assets/icons/icon-stars.png" alt="" />
-      Games
+      {{ $t('navigation.Games') }}
     </RouterLink>
     <RouterLink to="/about">
       <img src="../../../assets/icons/icon-chat.png" alt="" />
-      Community
+      {{ $t('navigation.Community') }}
     </RouterLink>
     <RouterLink to="/about">
       <img src="../../../assets/icons/icon-diamond.png" alt="" />
-      Store
+      {{ $t('navigation.Store') }}
     </RouterLink>
     <RouterLink to="/about">
       <img src="../../../assets/icons/icon-question.png" alt="" />
-      Customer
+      {{ $t('navigation.Customer') }}
     </RouterLink>
   </nav>
 </template>

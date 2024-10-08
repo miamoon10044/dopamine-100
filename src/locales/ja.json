@@ -1,12 +1,47 @@
 {
   "header": {
     "Game_Rules": "ゲームルール",
-    "FAQ": "よくある質問",
+    "FAQ": "FAQ",
     "DP_Ads": "DP広告",
     "Login": "ログイン",
     "Register": "登録",
-    "en": "English",
+    "en": "英語",
     "ja": "日本語",
-    "ko": "한글"
+    "ko": "韓国語"
+  },
+  "navigation": {
+    "Lobby": "ロビー",
+    "Webtoon": "ウェブトゥーン",
+    "Games": "ゲーム",
+    "Community": "コミュニティ",
+    "Store": "ストア",
+    "Customer": "カスタマーサービス"
+  },
+  "select_agent": {
+    "title": "<span class='text-pink'>エージェント</span>を選択してください",
+    "subtitle": "割り当てられたエージェントとのカジュアルな会話からプロモーションの議論まで、<br />さまざまな種類のコミュニケーションに参加できます。",
+    "confirm": "エージェントを確認",
+    "please_select": "エージェントを選択してください"
+  },
+  "home": {
+    "banner_title": "進行中のプロモーション",
+    "slot_promo_title": "無料スロットゲームを楽しむ",
+    "slot_promo_tab_btn1": "リアルタイムの勝利",
+    "slot_promo_tab_btn2": "最高の賞品と報酬",
+    "realtime_table_date": "日付",
+    "realtime_table_game": "ゲーム",
+    "realtime_table_bet_amount": "賭け金額",
+    "realtime_table_multiply": "乗数",
+    "realtime_table_winning": "勝利",
+    "realtime_table_replay": "リプレイ",
+    "temporary_account": "仮アカウント",
+    "spin_race": "スピンレース",
+    "season_rewards_sponsored_by": "シーズンの報酬はスポンサー提供"
+  },
+  "btn": {
+    "see_all": "すべてを見る",
+    "play": "プレイ",
+    "cta": "3秒でログイン",
+    "check_ranking": "自分のランキングを確認する"
   }
 }

@@ -7,7 +7,6 @@ import { useI18n } from 'vue-i18n';
 const { locale } = useI18n(); // Access the locale object
 
 const changeLocale = (language) => {
-  console.log(language);
   locale.value = language; // Set the new locale
 };
 </script>

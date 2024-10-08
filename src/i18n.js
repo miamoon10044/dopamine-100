@@ -13,7 +13,6 @@ const messages = {
 // Function to detect the browser language
 const getBrowserLocale = () => {
   const browserLang = navigator.language || navigator.userLanguage;
-  console.log(browserLang);
   const shortLang = browserLang.split('-')[0]; // Get language code without region (e.g., 'ja' from 'ja-JP')
   return shortLang;
 };
