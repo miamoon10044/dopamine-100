@@ -1,115 +1,121 @@
 <template>
   <div
-    class="card rounded-[16px]"
-    :class="[agent.name.toLowerCase(), { animated: isAnimated }]"
+    class="card rounded-3xl"
+    :class="{ animated: isAnimated }"
+    :style="cardStyle"
     @mousemove="onMouseMove"
     @mouseout="onMouseOut"
     @touchmove="onTouchMove"
-    @touchend="onTouchEnd"
-    :style="cardInlineStyles"
-    @click="activateCard">
-    <div class="shine-effect"></div>
+    @touchend="onMouseOut"
+    @touchcancel="onMouseOut">
     <video
-      class="card-video p-2 rounded-[14px] bg-white border border-solid border-slate-600"
+      class="card-video p-2 rounded-xl bg-white border border-solid border-slate-600"
+      :src="videoSrc"
       autoplay
-      loop
       muted
-      playsinline
-      :src="agent.frontImage"></video>
+      loop
+      playsinline></video>
+
+    <!-- <div class="shine-effect"></div> -->
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue';
-
-const props = defineProps({
-  agent: {
-    type: Object,
-    required: true,
+<script>
+export default {
+  name: 'PokemonCard',
+  props: {
+    videoSrc: {
+      type: String,
+      required: true,
+    },
+    colors: {
+      type: Object,
+      default: () => ({
+        color1: 'rgb(0, 231, 255)',
+        color2: 'rgb(255, 0, 231)',
+      }),
+    },
   },
-});
+  data() {
+    return {
+      cardStyle: {},
+      isAnimated: true,
+      timeoutId: null,
+    };
+  },
+  computed: {
+    cardColors() {
+      return {
+        '--color1': this.colors.color1,
+        '--color2': this.colors.color2,
+        '--color3': this.colors.color3 || '',
+        '--color4': this.colors.color4 || '',
+        '--color5': this.colors.color5 || '',
+      };
+    },
+  },
+  methods: {
+    onMouseMove(e) {
+      let pos = [e.offsetX, e.offsetY];
+      e.preventDefault();
+      if (e.type === 'touchmove') {
+        const rect = this.$el.getBoundingClientRect();
+        pos = [
+          e.touches[0].clientX - rect.left,
+          e.touches[0].clientY - rect.top,
+        ];
+      }
+      const l = pos[0];
+      const t = pos[1];
+      const h = this.$el.offsetHeight;
+      const w = this.$el.offsetWidth;
+      const px = Math.abs(Math.floor((100 / w) * l) - 100);
+      const py = Math.abs(Math.floor((100 / h) * t) - 100);
+      const pa = 50 - px + (50 - py);
+      const lp = 50 + (px - 50) / 1.5;
+      const tp = 50 + (py - 50) / 1.5;
+      const px_spark = 50 + (px - 50) / 7;
+      const py_spark = 50 + (py - 50) / 7;
+      const p_opc = 20 + Math.abs(pa) * 1.5;
+      const ty = ((tp - 50) / 2) * -1;
+      const tx = ((lp - 50) / 1.5) * 0.5;
 
-const isAnimated = ref(true);
-const gradPos = ref('');
-const sparkPos = ref('');
-const sparkOpacity = ref('');
-const cardTransform = ref('');
-const isActive = ref(false); // State for active card
-let animationTimeout = null;
-
-const onMouseMove = (e) => {
-  let pos = [e.offsetX, e.offsetY];
-  e.preventDefault();
-  const card = e.currentTarget;
-  if (e.type === 'touchmove') {
-    pos = [e.touches[0].clientX, e.touches[0].clientY];
-  }
-  const l = pos[0];
-  const t = pos[1];
-  const h = card.offsetHeight;
-  const w = card.offsetWidth;
-  const px = Math.abs(Math.floor((100 / w) * l) - 100);
-  const py = Math.abs(Math.floor((100 / h) * t) - 100);
-  const pa = 50 - px + (50 - py);
-  const lp = 50 + (px - 50) / 1.5;
-  const tp = 50 + (py - 50) / 1.5;
-  const px_spark = 50 + (px - 50) / 7;
-  const py_spark = 50 + (py - 50) / 7;
-  const p_opc = 20 + Math.abs(pa) * 1.5;
-  const ty = ((tp - 50) / 2) * -1;
-  const tx = ((lp - 50) / 1.5) * 0.5;
-
-  gradPos.value = `${lp}% ${tp}%`;
-  sparkPos.value = `${px_spark}% ${py_spark}%`;
-  sparkOpacity.value = p_opc / 100;
-  cardTransform.value = `rotateX(${ty}deg) rotateY(${tx}deg)`;
-  isAnimated.value = false;
-
-  if (animationTimeout) {
-    clearTimeout(animationTimeout);
-    animationTimeout = null;
-  }
+      this.cardStyle = {
+        '--gradPos': `${lp}% ${tp}%`,
+        '--sprkPos': `${px_spark}% ${py_spark}%`,
+        '--opc': `${p_opc / 100}`,
+        transform: `rotateX(${ty}deg) rotateY(${tx}deg)`,
+        ...this.cardColors,
+      };
+      this.isAnimated = false;
+      if (e.type === 'touchmove') {
+        return false;
+      }
+      clearTimeout(this.timeoutId);
+    },
+    onMouseOut() {
+      this.cardStyle = { ...this.cardColors };
+      this.timeoutId = setTimeout(() => {
+        this.isAnimated = true;
+      }, 2500);
+    },
+    onTouchMove(e) {
+      this.onMouseMove(e);
+    },
+  },
+  mounted() {
+    this.cardStyle = { ...this.cardColors };
+  },
 };
-
-const onMouseOut = () => {
-  gradPos.value = '';
-  sparkPos.value = '';
-  cardTransform.value = '';
-  isAnimated.value = false;
-
-  animationTimeout = setTimeout(() => {
-    isAnimated.value = true;
-  }, 2500);
-};
-
-const onTouchMove = (e) => {
-  onMouseMove(e);
-};
-
-const onTouchEnd = () => {
-  onMouseOut();
-};
-
-const activateCard = () => {
-  isActive.value = !isActive.value; // Toggle active state on click
-};
-
-const cardInlineStyles = computed(() => ({
-  '--gradPos': gradPos.value || '50% 50%',
-  '--sparkPos': sparkPos.value || '50% 50%',
-  '--sparkOpacity': sparkOpacity.value || 0.75,
-  transform: cardTransform.value || '',
-  '--color1': props.agent.color1,
-  '--color2': props.agent.color2,
-}));
 </script>
 
-<style>
+<style scoped>
 .card {
-  @apply relative overflow-hidden z-10 touch-none rounded-[5%_/_3.5%];
-  width: calc(100% / 3);
-  height: auto;
-  aspect-ratio: 5/7;
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+  touch-action: none;
+  border-radius: 5% / 3.5%;
   background-color: #040712;
   transform-origin: center;
   transition:
@@ -123,28 +129,43 @@ const cardInlineStyles = computed(() => ({
     7px 7px 10px -5px transparent,
     0 0 5px 0px rgba(255, 255, 255, 0),
     0 55px 35px -20px rgba(0, 0, 0, 0.5);
+  width: 71.5vw;
+  height: 100vw;
+  aspect-ratio: 5/7;
 }
 
-/* Position the video to cover the card */
+@media screen and (min-width: 600px) {
+  .card {
+    width: clamp(12.9vw, 61vh, 18vw);
+    height: clamp(18vw, 85vh, 25.2vw);
+  }
+}
+
 .card-video {
-  @apply absolute inset-0 object-cover w-full h-full;
-  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Ensure pseudo-elements are above the video */
 .card::before,
 .card::after {
   content: '';
-  @apply absolute inset-0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
   background-repeat: no-repeat;
-  opacity: 0.5;
   mix-blend-mode: color-dodge;
   transition: all 0.33s ease;
-  z-index: 1;
+  pointer-events: none;
 }
 
 .card::before {
-  background-position: var(--gradPos, 50% 50%);
+  background-position: 50% 50%;
   background-size: 300% 300%;
   background-image: linear-gradient(
     115deg,
@@ -157,11 +178,11 @@ const cardInlineStyles = computed(() => ({
   );
   opacity: 0.5;
   filter: brightness(0.5) contrast(1);
-  border-radius: 16px;
+  z-index: 1;
 }
 
 .card::after {
-  opacity: var(--sparkOpacity, 0.75);
+  opacity: 0.75;
   background-image: url('https://assets.codepen.io/13471/sparkles.gif'),
     url('https://assets.codepen.io/13471/holo.png'),
     linear-gradient(
@@ -173,19 +194,12 @@ const cardInlineStyles = computed(() => ({
       #00cfff40 70%,
       #cc4cfa50 85%
     );
-  background-position: var(--sparkPos, 50% 50%);
+  background-position: 50% 50%;
   background-size: 160%;
   background-blend-mode: overlay;
+  z-index: 2;
   filter: brightness(1) contrast(1);
-  transition: all 0.33s ease;
   mix-blend-mode: color-dodge;
-  border-radius: 16px;
-}
-
-.card.active::after,
-.card:hover::after {
-  filter: brightness(1) contrast(1);
-  opacity: 1;
 }
 
 .card:hover {
@@ -196,6 +210,15 @@ const cardInlineStyles = computed(() => ({
     7px 7px 10px -5px var(--color2),
     0 0 13px 4px rgba(255, 255, 255, 0.3),
     0 55px 35px -20px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover::before {
+  background-position: var(--gradPos, 50% 50%);
+}
+
+.card:hover::after {
+  background-position: var(--sprkPos, 50% 50%);
+  opacity: var(--opc, 0.75);
 }
 
 .card.active,
@@ -214,18 +237,10 @@ const cardInlineStyles = computed(() => ({
     var(--color2) 52%,
     transparent 75%
   );
-  background-position: var(--gradPos, 50% 50%);
+  background-position: 50% 50%;
   background-size: 250% 250%;
   opacity: 0.88;
   filter: brightness(0.66) contrast(1.33);
-  transition: none;
-}
-
-.card.active::before,
-.card:hover::before,
-.card.active::after,
-.card:hover::after {
-  animation: none;
   transition: none;
 }
 
@@ -244,6 +259,7 @@ const cardInlineStyles = computed(() => ({
   animation: holoSparkle 12s ease 0s 1;
 }
 
+/* Keyframes for animations */
 @keyframes holoSparkle {
   0%,
   100% {
@@ -345,7 +361,6 @@ const cardInlineStyles = computed(() => ({
   );
   animation: shine 5s infinite ease-in-out;
   z-index: 2; /* Ensure shine is above the card background */
-  pointer-events: none;
 }
 
 @keyframes shine {
@@ -355,10 +370,5 @@ const cardInlineStyles = computed(() => ({
   100% {
     transform: translate(50%, 50%);
   }
-}
-
-.card.active {
-  transform: scale(1.5) !important; /* Scale the active card */
-  z-index: 10; /* Bring the active card to the front */
 }
 </style>

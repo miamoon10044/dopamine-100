@@ -5,7 +5,6 @@ import HoloCardV2 from '../Card/HoloCardV2.vue';
 
 // Reactive variables
 const openModal = ref(false);
-// const activeCardIndex = ref(null);
 
 import agent1 from '@/assets/select-agent/agent-1.mp4';
 import agent2 from '@/assets/select-agent/agent-2.mp4';
@@ -16,38 +15,26 @@ onMounted(() => {
   openModal.value = true;
 });
 
-// Array of card data
-// const cards = [
-//   { id: 'holo-1', imgSrc: agent2 },
-//   { id: 'holo-2', imgSrc: agent1 },
-//   { id: 'holo-3', imgSrc: agent3 },
-// ];
-
 const agents = ref([
   {
     name: 'Agent2',
-    color1: '#fac',
-    color2: '#ddccaa',
+    color1: '#e0758790',
+    color2: '#d1c88c90',
     frontImage: agent2,
   },
   {
     name: 'Agent1',
-    color1: '#54a29e',
-    color2: '#a79d66',
+    color1: '#86b0c490',
+    color2: '#bfb2ed90',
     frontImage: agent1,
   },
   {
     name: 'Agent3',
-    color1: '#ec9bb6',
-    color2: '#ccac6f',
+    color1: '#9cd1f790',
+    color2: '#bad1c790',
     frontImage: agent3,
   },
 ]);
-
-// Set active card on click
-// const setActiveCard = (index) => {
-//   activeCardIndex.value = activeCardIndex.value === index ? null : index;
-// };
 </script>
 
 <template>
@@ -56,7 +43,7 @@ const agents = ref([
     class="agent-modal"
     :class="{ 'modal modal-open': openModal, modal: !openModal }">
     <div
-      class="modal-box flex flex-col items-center py-8 px-5 bg-transparent shadow-none">
+      class="modal-box flex flex-col items-center py-8 px-5 bg-transparent shadow-none w-full max-w-100 h-full max-h-full">
       <img src="../../assets/logo.png" alt="" />
 
       <div class="mt-[54px] text-center">
@@ -71,17 +58,10 @@ const agents = ref([
         </p>
       </div>
 
-      <div class="flex flex-row py-10 gap-[18px]">
-        <!-- <HoloCard
-          v-for="(cardData, index) in cards"
-          :key="index"
-          :cardData="cardData"
-          :index="index"
-          :activeCardIndex="activeCardIndex"
-          :setActiveCard="setActiveCard"
-          :cardsLength="cards.length" /> -->
-
+      <div
+        class="flex flex-row justify-center py-10 gap-[18px] w-full max-w-[900px]">
         <HoloCardV2
+          class="cursor-pointer"
           v-for="(agent, index) in agents"
           :key="index"
           :agent="agent" />
@@ -104,7 +84,6 @@ const agents = ref([
 
 <style scoped>
 .modal-box {
-  width: 1200px;
   max-width: none;
 }
 
