@@ -1,7 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import HoloCard from '../Card/HoloCard.vue';
 import HoloCardV2 from '../Card/HoloCardV2.vue';
+import LocaleDropdown from '../LocaleDropdown/LocaleDropdown.vue';
+import { useI18n } from 'vue-i18n';
+
+const { locale } = useI18n(); // Access the locale object
+
+const changeLocale = (language) => {
+  locale.value = language; // Set the new locale
+};
 
 // Reactive variables
 const openModal = ref(false);
@@ -44,7 +51,12 @@ const agents = ref([
     :class="{ 'modal modal-open': openModal, modal: !openModal }">
     <div
       class="modal-box flex flex-col items-center py-8 px-5 bg-transparent shadow-none w-full max-w-100 h-full max-h-full">
-      <img src="../../assets/logo.png" alt="" />
+      <div class="relative max-w-[900px] w-full flex justify-center">
+        <img src="../../assets/logo.png" alt="" />
+        <LocaleDropdown
+          class="absolute top-0 right-0"
+          :changeLocale="changeLocale" />
+      </div>
 
       <div class="mt-[54px] text-center">
         <h2 class="text-[32px] mb-5" v-html="$t('select_agent.title')"></h2>
