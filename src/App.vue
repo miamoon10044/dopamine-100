@@ -1,6 +1,6 @@
 <script setup>
 import Header from './components/Header/Header.vue';
-import SelectAgent from './components/Popups/SelectAgent.vue';
+import SelectAgent from './components/Popups/SelectAgentV2.vue';
 import Navigation from './components/Header/Navigation/Navigation.vue';
 import UserInfo from './components/Header/UserInfo/UserInfo.vue';
 </script>
