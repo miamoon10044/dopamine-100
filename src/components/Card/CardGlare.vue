@@ -5,20 +5,17 @@
 <script setup>
 import { computed } from 'vue';
 
-// Props
 const props = defineProps({
-  subtypes: {
-    type: Array,
-    required: true,
-  },
-  rarity: {
-    type: String,
-    required: true,
-  },
+  subtypes: { type: [Array, String], required: true },
+  rarity: { type: String, required: true },
 });
 
-// Computed classes
-const classes = computed(() => `${props.rarity} ${props.subtypes.join(' ')}`);
+const classes = computed(() => {
+  const subtypesClass = Array.isArray(props.subtypes)
+    ? props.subtypes.join(' ')
+    : props.subtypes;
+  return `${props.rarity} ${subtypesClass}`;
+});
 </script>
 
 <style lang="scss" scoped>

@@ -15,19 +15,18 @@ const changeLocale = (language) => {
 // Reactive variables
 const openModal = ref(false);
 
-const active = ref(null);
-const cards = cardsData.map((card) => {
-  return {
-    ...card,
-    rarity: card.rarity.toLowerCase(),
-    supertype: card.supertype.toLowerCase(),
-    subtypes: Array.isArray(card.subtypes)
-      ? card.subtypes.map((subtype) => subtype.toLowerCase())
-      : [card.subtypes.toLowerCase()],
-    gallery: card.number.startsWith('TG'),
-  };
-});
+// Cards
+const cards = cardsData.map((card) => ({
+  ...card,
+  rarity: card.rarity.toLowerCase(),
+  supertype: card.supertype.toLowerCase(),
+  subtypes: Array.isArray(card.subtypes)
+    ? card.subtypes.join(' ').toLowerCase()
+    : card.subtypes.toLowerCase(),
+  gallery: card.number.startsWith('TG'),
+}));
 
+const active = ref(null);
 const slices = [
   // basics
   cards.slice(0, 6),
@@ -60,6 +59,8 @@ const slices = [
   // veeGallery
   cards.slice(63, 69),
 ];
+
+// Cards end
 
 import agent1 from '@/assets/select-agent/agent-1.mp4';
 import agent2 from '@/assets/select-agent/agent-2.mp4';
@@ -119,6 +120,7 @@ const agents = ref([
               <Card
                 v-for="card in slice"
                 :key="card.id"
+                @click.stop="active = active === card ? null : card"
                 :name="card.name"
                 :img="card.images.large"
                 :number="card.number"
@@ -126,8 +128,7 @@ const agents = ref([
                 :subtypes="card.subtypes"
                 :rarity="card.rarity"
                 :gallery="card.gallery"
-                :active="active === card"
-                @click.stop="active = active === card ? null : card" />
+                :active="active === card" />
             </div>
             <hr />
           </div>

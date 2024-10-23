@@ -1,260 +1,198 @@
 <template>
   <div
     class="card"
-    :class="{ active, interacting: interacting.value, loading: loading.value }"
+    :class="{ active, interacting, loading }"
     ref="card"
-    :style="styles"
+    :style="cardStyles"
     :data-number="number"
     :data-subtypes="subtypes"
     :data-supertype="supertype"
     :data-rarity="rarity"
     :data-gallery="gallery">
-    <div class="card__translater" v-motion="motionTranslate">
+    <div class="card__translater">
       <button
         class="card__rotator"
         ref="rotator"
         @pointermove="interact"
         @mouseout="interactEnd"
-        aria-label="Expand the Pokemon Card; {{ name }}."
-        v-motion="motionRotate">
+        aria-label="Expand the Pokémon Card; {{ name }}.">
+        <h1>{{ springBackground.values }}</h1>
         <img
           class="card__back"
           :src="back_img"
-          alt="The back of a Pokemon Card, a Pokeball in the center with Pokemon logo above and below" />
+          alt="The back of a Pokémon Card" />
         <div class="card__front">
           <img
             :src="front_img"
             @load="imageLoader"
-            :alt="`Front design of the ${name} Pokemon Card, with the stats and info around the edge`" />
-          <CardShine :subtypes="subtypes" :supertype="supertype" />
-          <CardGlare :subtypes="subtypes" :rarity="rarity" />
+            :alt="`Front design of the ${name} Pokémon Card.`" />
+          <card-shine :subtypes="subtypes" :supertype="supertype" />
+          <card-glare :subtypes="subtypes" :rarity="rarity" />
         </div>
       </button>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import { useMotion, useMotionControls, useSpring } from '@vueuse/motion';
+<script>
+import { useSpring } from '@vueuse/motion';
 import { clamp, round } from '@/helpers/Math';
 import CardShine from '@/components/Card/CardShine.vue';
 import CardGlare from '@/components/Card/CardGlare.vue';
 
-// Props
-const props = defineProps({
-  img: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  number: {
-    type: String,
-    required: true,
-  },
-  supertype: {
-    type: String,
-    required: true,
-  },
-  subtypes: {
-    type: Array,
-    required: true,
-  },
-  rarity: {
-    type: String,
-    required: true,
-  },
-  gallery: {
-    type: Boolean,
-    required: true,
-  },
-  active: {
-    type: Boolean,
-    required: true,
-  },
-});
-
-// Refs and data
+const SPRING_R = { stiffness: 666, damping: 25 };
+const SPRING_D = { stiffness: 333, damping: 45 };
+const SNAP_SETTINGS = { stiffness: 0.01, damping: 0.06 };
 const galaxyPosition = Math.floor(Math.random() * 1500);
-const back_img =
-  'https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg';
 
-const springR = { stiffness: 666, damping: 25 };
-const springD = { stiffness: 333, damping: 45 };
+export default {
+  name: 'Card',
+  components: { CardShine, CardGlare },
+  props: {
+    img: { type: String, required: true },
+    name: { type: String, required: true },
+    number: { type: [Number, String], required: true },
+    supertype: { type: String, required: true },
+    subtypes: { type: [Array, String], required: true },
+    rarity: { type: String, required: true },
+    gallery: { type: Boolean, required: true },
+    active: { type: Boolean, required: true },
+  },
+  data() {
+    const back_img_url =
+      'https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg';
 
-const firstPop = ref(true);
-const interacting = ref(false);
-const loading = ref(true);
-const front_img = ref('');
-
-// Refs to DOM elements
-const card = ref(null);
-const rotator = ref(null);
-
-// Motion controls
-const motionTranslate = useMotionControls();
-const motionRotate = useMotionControls();
-const motionScale = useMotionControls();
-
-// Computed styles
-const styles = computed(() => {
-  return `
-    --galaxybg: center ${galaxyPosition}px;
-  `;
-});
-
-// Lifecycle hook
-onMounted(() => {
-  const img_base = props.img.startsWith('http')
-    ? ''
-    : 'https://images.pokemontcg.io/';
-  front_img.value = img_base + props.img;
-});
-
-// Methods
-function interact(e) {
-  console.log(e);
-
-  if (props.active) {
-    interacting.value = true;
-  }
-
-  let clientX = e.clientX;
-  let clientY = e.clientY;
-
-  if (e.type === 'touchmove') {
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  }
-
-  const $el = e.target;
-  const rect = $el.getBoundingClientRect();
-
-  const absolute = {
-    x: clientX - rect.left,
-    y: clientY - rect.top,
-  };
-
-  const percent = {
-    x: round((100 / rect.width) * absolute.x),
-    y: round((100 / rect.height) * absolute.y),
-  };
-
-  const center = {
-    x: percent.x - 50,
-    y: percent.y - 50,
-  };
-
-  // Update motion controls
-  // motionTranslate.set({
-  //   x: 0,
-  //   y: 0,
-  //   transition: {
-  //     stiffness: springR.stiffness,
-  //     damping: springR.damping,
-  //   },
-  // });
-
-  // motionRotate.set({
-  //   rotateX: round(-(center.y / 2)),
-  //   rotateY: round(center.x / 3.5),
-  //   transition: {
-  //     stiffness: springR.stiffness,
-  //     damping: springR.damping,
-  //   },
-  // });
-}
-
-function imageLoader() {
-  loading.value = false;
-}
-
-let interactEndTimeout;
-
-function interactEnd(e, delay = 100) {
-  clearTimeout(interactEndTimeout);
-  interactEndTimeout = setTimeout(() => {
-    interacting.value = false;
-
-    motionRotate.set({
-      rotateX: 0,
-      rotateY: 0,
-      transition: {
-        stiffness: 0.01,
-        damping: 0.06,
-      },
-    });
-  }, delay);
-}
-
-function _popover() {
-  const rect = card.value.getBoundingClientRect();
-  let delay = 100;
-  let scaleW = (window.innerWidth / rect.width) * 0.9;
-  let scaleH = (window.innerHeight / rect.height) * 0.9;
-  let scaleF = 1.75;
-
-  _setCenter();
-
-  if (firstPop.value) {
-    delay = 1000;
-    firstPop.value = false;
-  }
-
-  motionScale.set({
-    scale: Math.min(scaleW, scaleH, scaleF),
-    transition: {
-      stiffness: springD.stiffness,
-      damping: springD.damping,
+    return {
+      firstPop: true,
+      interacting: false,
+      loading: true,
+      back_img: back_img_url,
+      front_img: '',
+      springRotate: useSpring({ x: 0, y: 0 }, SPRING_R),
+      springGlare: useSpring({ x: 50, y: 50, o: 0 }, SPRING_R),
+      springBackground: useSpring({ x: 50, y: 50 }, SPRING_R),
+      springTranslate: useSpring({ x: 0, y: 0 }, SPRING_D),
+      springScale: useSpring({ s: 1 }, SPRING_D),
+      glareTest: 0,
+    };
+  },
+  computed: {
+    cardStyles() {
+      return `
+        --mx: ${this.springGlare.values.x}%;
+        --my: ${this.springGlare.values.y}%;
+        --tx: ${this.springTranslate.values.x}px;
+        --ty: ${this.springTranslate.values.y}px;
+        --s: ${this.springScale.values.s};
+        --o: ${this.springGlare.values.o};
+        --rx: ${this.springRotate.values.x}deg;
+        --ry: ${this.springRotate.values.y}deg;
+        --pos: ${this.springBackground.values.x}% ${this.springBackground.values.y}%;
+        --galaxybg: center ${galaxyPosition}px;
+        --test: ${this.glareTest}%;
+      `;
     },
-  });
+  },
+  created() {
+    const baseUrl = this.img.startsWith('http')
+      ? ''
+      : 'https://images.pokemontcg.io/';
+    this.front_img = baseUrl + this.img;
+  },
+  methods: {
+    interact(e) {
+      if (this.active) {
+        this.interacting = true;
+      }
 
-  interactEnd(null, delay);
-}
+      if (e.type === 'touchmove') {
+        e.clientX = e.touches[0].clientX;
+        e.clientY = e.touches[0].clientY;
+      }
 
-function _retreat() {
-  motionScale.set({
-    scale: 1,
-    transition: {
-      stiffness: springD.stiffness,
-      damping: springD.damping,
+      const { x, y, center } = this.calculatePointerPosition(e);
+
+      this.updateSpring(this.springBackground, {
+        x: round(50 + x / 4 - 12.5),
+        y: round(50 + y / 3 - 16.67),
+      });
+      this.updateSpring(this.springRotate, {
+        x: round(-(center.x / 3.5)),
+        y: round(center.y / 2),
+      });
+      this.updateSpring(this.springGlare, { x, y, o: 1 });
+
+      this.glareTest = x;
     },
-  });
-}
-
-function _setCenter() {
-  const rect = card.value.getBoundingClientRect();
-  const view = document.documentElement;
-  const delta = {
-    x: round(view.clientWidth / 2 - rect.x - rect.width / 2),
-    y: round(view.clientHeight / 2 - rect.y - rect.height / 2),
-  };
-
-  motionTranslate.set({
-    x: delta.x,
-    y: delta.y,
-    transition: {
-      stiffness: springD.stiffness,
-      damping: springD.damping,
+    interactEnd(e, delay = 100) {
+      console.log('interactEnd');
+      setTimeout(() => {
+        this.interacting = false;
+        this.resetSprings();
+      }, delay);
     },
-  });
-}
-
-// Watch active prop
-watch(
-  () => props.active,
-  (newVal) => {
-    if (newVal) {
-      _popover();
-    } else {
-      _retreat();
-    }
-  }
-);
+    calculatePointerPosition(e) {
+      const rect = e.target.getBoundingClientRect();
+      const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+      const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+      const absolute = { x: clientX - rect.left, y: clientY - rect.top };
+      const percent = {
+        x: round((100 / rect.width) * absolute.x),
+        y: round((100 / rect.height) * absolute.y),
+      };
+      return {
+        x: percent.x,
+        y: percent.y,
+        center: { x: percent.x - 50, y: percent.y - 50 },
+      };
+    },
+    updateSpring(spring, values) {
+      spring.values.stiffness = SPRING_R.stiffness;
+      spring.values.damping = SPRING_R.damping;
+      spring.set(values);
+    },
+    resetSprings() {
+      const resetValues = { x: 50, y: 50, o: 0 };
+      this.springRotate.set({ x: 0, y: 0 });
+      this.springGlare.set(resetValues);
+      this.springBackground.set(resetValues);
+      this.springScale.set({ s: 1 });
+    },
+    imageLoader() {
+      this.loading = false;
+    },
+  },
+  watch: {
+    active(isActive) {
+      isActive ? this._popover() : this._retreat();
+    },
+  },
+};
 </script>
+
+<style scoped>
+.card {
+  width: 300px;
+  height: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+  perspective: 1000px;
+  background: var(--galaxybg, #000);
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition:
+    transform 0.1s,
+    background 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
 
 <style lang="scss" scoped>
 :root {

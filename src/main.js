@@ -10,13 +10,10 @@ import { register } from 'swiper/element/bundle';
 import Countdown from '@chenfengyuan/vue-countdown';
 import i18n from './i18n';
 
-import { MotionPlugin } from '@vueuse/motion';
-
 // register Swiper custom elements
 register();
 const app = createApp(App);
 app.component(Countdown.name, Countdown);
 app.use(i18n);
 app.use(router); // Register the router
-app.use(MotionPlugin); // Register the motion plugin
 app.mount('#app');
