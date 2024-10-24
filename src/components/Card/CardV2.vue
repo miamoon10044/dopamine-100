@@ -25,8 +25,15 @@
           class="card__back"
           :src="back_img"
           alt="The back of a Pokémon Card" />
-        <div class="card__front">
-          <video autoplay muted playsinline loop :poster="props.img">
+        <div
+          class="card__front p-3 h-full bg-white border border-solid border-slate-500">
+          <video
+            class="h-full !rounded-md object-cover border border-solid border-slate-800"
+            autoplay
+            muted
+            playsinline
+            loop
+            :poster="props.img">
             <source :src="props.video" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
