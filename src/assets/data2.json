@@ -1,0 +1,40 @@
+[
+  {
+    "id": "agent-1",
+    "name": "Agent 1",
+    "supertype": "Pokémon",
+    "subtypes": ["VMAX"],
+    "number": "1",
+    "rarity": "Rare Holo V",
+    "src": {
+      "image": "assets/select-agent/agent-1.png",
+      "video": "assets/select-agent/agent-1.mp4"
+    }
+  },
+
+  {
+    "id": "agent-2",
+    "name": "Agent 2",
+    "supertype": "Pokémon",
+    "subtypes": ["VMAX"],
+    "number": "2",
+    "rarity": "Rare Holo V",
+    "src": {
+      "image": "assets/select-agent/agent-2.png",
+      "video": "assets/select-agent/agent-2.mp4"
+    }
+  },
+
+  {
+    "id": "agent-3",
+    "name": "Agent 3",
+    "supertype": "Pokémon",
+    "subtypes": ["VMAX"],
+    "number": "3",
+    "rarity": "Rare Holo V",
+    "src": {
+      "image": "assets/select-agent/agent-3.png",
+      "video": "assets/select-agent/agent-3.mp4"
+    }
+  }
+]

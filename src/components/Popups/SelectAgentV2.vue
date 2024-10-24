@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import Card from '@/components/Card/Card.vue';
-import cardsData from '@/assets/data.json';
+import Card from '@/components/Card/CardV2.vue';
+import cardsData from '@/assets/data2.json';
 
 import LocaleDropdown from '../LocaleDropdown/LocaleDropdown.vue';
 import { useI18n } from 'vue-i18n';
@@ -27,70 +27,12 @@ const cards = cardsData.map((card) => ({
 }));
 
 const active = ref(null);
-const slices = [
-  // basics
-  cards.slice(0, 6),
-  // holos
-  cards.slice(6, 12),
-  // galaxies
-  cards.slice(12, 15),
-  // radiant
-  cards.slice(15, 18),
-  // basicGallery
-  cards.slice(60, 63),
-  // vee
-  cards.slice(18, 21),
-  // veeUltra
-  cards.slice(21, 24),
-  // veeAlt
-  [...cards.slice(27, 30), ...cards.slice(33, 36)],
-  // veeMax
-  cards.slice(24, 27),
-  // veeMaxAlt
-  [cards[36], cards[31], cards[37]],
-  // veeStar
-  cards.slice(39, 42),
-  // trainerHolo
-  cards.slice(42, 48),
-  // rainbow
-  cards.slice(48, 51),
-  // gold
-  cards.slice(51, 60),
-  // veeGallery
-  cards.slice(63, 69),
-];
-
 // Cards end
-
-import agent1 from '@/assets/select-agent/agent-1.mp4';
-import agent2 from '@/assets/select-agent/agent-2.mp4';
-import agent3 from '@/assets/select-agent/agent-3.mp4';
 
 // Open the modal automatically when the page loads
 onMounted(() => {
   openModal.value = true;
 });
-
-const agents = ref([
-  {
-    name: 'Agent2',
-    color1: '#e0758790',
-    color2: '#d1c88c90',
-    frontImage: agent2,
-  },
-  {
-    name: 'Agent1',
-    color1: '#86b0c490',
-    color2: '#bfb2ed90',
-    frontImage: agent1,
-  },
-  {
-    name: 'Agent3',
-    color1: '#9cd1f790',
-    color2: '#bad1c790',
-    frontImage: agent3,
-  },
-]);
 </script>
 
 <template>
@@ -114,24 +56,20 @@ const agents = ref([
 
       <div
         class="flex flex-row justify-center py-10 gap-[18px] w-full max-w-[900px]">
-        <div class="showcase" @click="active = null">
-          <div v-for="(slice, index) in slices" :key="index">
-            <div class="slice">
-              <Card
-                v-for="card in slice"
-                :key="card.id"
-                @click.stop="active = active === card ? null : card"
-                :name="card.name"
-                :img="card.images.large"
-                :number="card.number"
-                :supertype="card.supertype"
-                :subtypes="card.subtypes"
-                :rarity="card.rarity"
-                :gallery="card.gallery"
-                :active="active === card" />
-            </div>
-            <hr />
-          </div>
+        <div class="grid grid-rows-1 grid-cols-3 gap-10" @click="active = null">
+          <Card
+            v-for="card in cards"
+            :key="card.id"
+            @click.stop="active = active === card ? null : card"
+            :name="card.name"
+            :img="card.src.image"
+            :video="card.src.video"
+            :number="card.number"
+            :supertype="card.supertype"
+            :subtypes="card.subtypes"
+            :rarity="card.rarity"
+            :gallery="card.gallery"
+            :active="active === card" />
         </div>
       </div>
 
@@ -158,10 +96,6 @@ const agents = ref([
 .modal-backdrop {
   position: fixed;
   inset: 0;
-}
-
-.showcase {
-  padding: 4rem;
 }
 
 .slice {

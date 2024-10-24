@@ -16,7 +16,7 @@
         @pointermove="interact"
         @mouseout="interactEnd"
         aria-label="Expand the Pokémon Card; {{ name }}.">
-        <h1>{{ springBackground.values }}</h1>
+        <h1>{{ springRotate.values }}</h1>
         <img
           class="card__back"
           :src="back_img"
@@ -125,7 +125,6 @@ export default {
       this.glareTest = x;
     },
     interactEnd(e, delay = 100) {
-      console.log('interactEnd');
       setTimeout(() => {
         this.interacting = false;
         this.resetSprings();
@@ -157,6 +156,8 @@ export default {
       this.springGlare.set(resetValues);
       this.springBackground.set(resetValues);
       this.springScale.set({ s: 1 });
+
+      this.glareTest = '0';
     },
     imageLoader() {
       this.loading = false;
@@ -175,7 +176,7 @@ export default {
   width: 300px;
   height: 400px;
   border-radius: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
   perspective: 1000px;
   background: var(--galaxybg, #000);
   transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
