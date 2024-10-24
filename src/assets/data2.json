@@ -4,8 +4,8 @@
     "name": "Agent 1",
     "supertype": "Pokémon",
     "subtypes": ["VMAX"],
-    "number": "1",
-    "rarity": "Rare Holo V",
+    "number": "TG1",
+    "rarity": "Rare Holo VMAX",
     "src": {
       "image": "assets/select-agent/agent-1.png",
       "video": "assets/select-agent/agent-1.mp4"
@@ -16,8 +16,8 @@
     "id": "agent-2",
     "name": "Agent 2",
     "supertype": "Pokémon",
-    "subtypes": ["VMAX"],
-    "number": "2",
+    "subtypes": ["Basic", "V"],
+    "number": "TG2",
     "rarity": "Rare Holo V",
     "src": {
       "image": "assets/select-agent/agent-2.png",
@@ -30,8 +30,8 @@
     "name": "Agent 3",
     "supertype": "Pokémon",
     "subtypes": ["VMAX"],
-    "number": "3",
-    "rarity": "Rare Holo V",
+    "number": "TG3",
+    "rarity": "Rare Rainbow Alt",
     "src": {
       "image": "assets/select-agent/agent-3.png",
       "video": "assets/select-agent/agent-3.mp4"
