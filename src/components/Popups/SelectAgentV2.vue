@@ -27,6 +27,14 @@ const cards = cardsData.map((card) => ({
 }));
 
 const active = ref(null);
+
+const setCardActive = (card) => {
+  active.value = active.value?.id === card.id ? null : card;
+};
+
+const setCardInactive = () => {
+  active.value = null;
+};
 // Cards end
 
 // Open the modal automatically when the page loads
@@ -55,12 +63,13 @@ onMounted(() => {
       </div>
 
       <div
-        class="flex flex-row justify-center py-10 gap-[18px] w-full max-w-[900px]">
-        <div class="grid grid-rows-1 grid-cols-3 gap-10" @click="active = null">
+        class="flex flex-row justify-center py-10 gap-[18px] w-full max-w-[900px]"
+        @click="setCardInactive">
+        <div class="grid grid-rows-1 grid-cols-3 gap-10">
           <Card
             v-for="card in cards"
             :key="card.id"
-            @click.stop="active = active === card ? null : card"
+            @click.stop="setCardActive(card)"
             :name="card.name"
             :img="card.src.image"
             :video="card.src.video"
@@ -69,13 +78,13 @@ onMounted(() => {
             :subtypes="card.subtypes"
             :rarity="card.rarity"
             :gallery="card.gallery"
-            :active="active === card" />
+            :active="active?.id === card.id" />
         </div>
       </div>
 
       <div class="modal-action flex-col items-center">
         <button
-          class="btn shadow-none bg-pink text-white rounded-3xl px-[80px] py-4 mt-3 text-sm min-h-[auto] h-[auto] leading-none max-w-[auto] hover:bg-pink-600"
+          class="btn shadow-none bg-pink text-white rounded-3xl px-[80px] py-4 text-sm min-h-[auto] h-[auto] leading-none max-w-[auto] hover:bg-pink-600"
           @click="openModal = false">
           {{ $t('select_agent.confirm') }}
         </button>

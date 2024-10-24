@@ -52,6 +52,7 @@ import { useSpring, useMotionProperties } from '@vueuse/motion';
 import { clamp, round } from '@/helpers/Math';
 import CardShine from '@/components/Card/CardShine.vue';
 import CardGlare from '@/components/Card/CardGlare.vue';
+import backCard from '@/assets/select-agent/back.png';
 
 // Define props using the defineProps macro
 const props = defineProps({
@@ -67,12 +68,10 @@ const props = defineProps({
 });
 
 const galaxyPosition = Math.floor(Math.random() * 1500);
-const back_img_url =
-  'https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg';
-const back_img = ref(back_img_url);
 
 // Define refs for reactive data
 const card = ref(null);
+const back_img = ref(backCard);
 const rotator = ref(null);
 
 const SPRING_R = { stiffness: 666, damping: 25 };
@@ -82,6 +81,7 @@ const SNAP_SETTINGS = { stiffness: 0.01, damping: 0.06 };
 const { motionProperties } = useMotionProperties(card, {
   x: 0,
   y: 0,
+  scale: 1,
 });
 
 // Initialize springs using @vueuse/motion
@@ -91,7 +91,7 @@ const springBackground = useSpring({ x: 50, y: 50 }, SPRING_R);
 
 const springRotateDelta = useSpring({ x: 0, y: 0 }, SPRING_D);
 const springTranslate = useSpring({ x: 0, y: 0 }, SPRING_D);
-const springScale = useSpring({ s: 1 }, SPRING_D);
+const springScale = useSpring(motionProperties, SPRING_D);
 
 const firstPop = ref(true);
 const interacting = ref(false);
@@ -203,13 +203,13 @@ const interactEnd = (e, delay = 100) => {
 };
 
 const popover = () => {
-  const rect = card.getBoundingClientRect(); // get element's size/position
+  const rect = card.value.getBoundingClientRect(); // get element's size/position
   let delay = 100;
   let scaleW = (window.innerWidth / rect.width) * 0.9;
   let scaleH = (window.innerHeight / rect.height) * 0.9;
   let scaleF = 1.75;
   setCenter();
-  if (firstPop) {
+  if (firstPop.value) {
     delay = 1000;
     springRotateDelta.set({
       x: 360,
@@ -229,7 +229,7 @@ const retreat = () => {
 };
 
 const setCenter = () => {
-  const rect = card.getBoundingClientRect(); // get element's size/position
+  const rect = card.value.getBoundingClientRect(); // get element's size/position
   const view = document.documentElement; // get window/viewport size
   const delta = {
     x: round(view.clientWidth / 2 - rect.x - rect.width / 2),
