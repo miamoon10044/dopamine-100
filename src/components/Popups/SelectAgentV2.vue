@@ -27,13 +27,19 @@ const cards = cardsData.map((card) => ({
 }));
 
 const active = ref(null);
+const backActive = ref(false);
 
 const setCardActive = (card) => {
   active.value = active.value?.id === card.id ? null : card;
 };
 
+const setBackCardActive = () => {
+  backActive.value = !backActive.value;
+};
+
 const setCardInactive = () => {
   active.value = null;
+  backActive.value = false;
 };
 // Cards end
 
@@ -65,7 +71,19 @@ onMounted(() => {
       <div
         class="flex flex-row justify-center py-10 gap-[18px] w-full max-w-[900px]"
         @click="setCardInactive">
-        <div class="grid grid-rows-1 grid-cols-3 gap-10">
+        <div class="grid grid-rows-1 grid-cols-3 gap-10 relative">
+          <div
+            v-if="active"
+            class="absolute bottom-[-60%] left-[50%] translate-x-[-50%] z-[9999]">
+            <button
+              class="btn shadow-none bg-pink text-white rounded-3xl px-[80px] py-4 text-sm min-h-[auto] h-[auto] leading-none max-w-[auto] hover:bg-pink-600"
+              @click.stop="setBackCardActive()">
+              Flip Card
+            </button>
+          </div>
+          <div
+            v-if="active"
+            class="fixed w-full h-full bg-[#73485c30] top-0 left-0 z-[101]"></div>
           <Card
             v-for="card in cards"
             :key="card.id"
@@ -78,7 +96,8 @@ onMounted(() => {
             :subtypes="card.subtypes"
             :rarity="card.rarity"
             :gallery="card.gallery"
-            :active="active?.id === card.id" />
+            :active="active?.id === card.id"
+            :backActive="backActive" />
         </div>
       </div>
 

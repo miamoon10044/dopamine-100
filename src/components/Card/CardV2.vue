@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { useSpring, useMotionProperties } from '@vueuse/motion';
 import { clamp, round } from '@/helpers/Math';
 import CardShine from '@/components/Card/CardShine.vue';
@@ -65,6 +65,7 @@ const props = defineProps({
   rarity: { type: String, required: true },
   gallery: { type: Boolean, required: true },
   active: { type: Boolean, required: true },
+  backActive: { type: Boolean, required: true },
 });
 
 const galaxyPosition = Math.floor(Math.random() * 1500);
@@ -203,22 +204,30 @@ const interactEnd = (e, delay = 100) => {
 };
 
 const popover = () => {
-  const rect = card.value.getBoundingClientRect(); // get element's size/position
-  let delay = 100;
-  let scaleW = (window.innerWidth / rect.width) * 0.9;
-  let scaleH = (window.innerHeight / rect.height) * 0.9;
-  let scaleF = 1.75;
-  setCenter();
-  if (firstPop.value) {
-    delay = 1000;
-    springRotateDelta.set({
-      x: 360,
-      y: 0,
-    });
-    firstPop.value = false;
-  }
-  springScale.set({ s: Math.min(scaleW, scaleH, scaleF) });
-  interactEnd(null, delay);
+  nextTick(() => {
+    if (!card.value) {
+      console.error('Card element is not available.');
+      return;
+    }
+
+    const rect = card.value.getBoundingClientRect(); // get element's size/position
+    let delay = 100;
+    let scaleW = (window.innerWidth / rect.width) * 0.9;
+    let scaleH = (window.innerHeight / rect.height) * 0.9;
+    let scaleF = 1.75;
+    setCenter();
+    if (firstPop.value) {
+      delay = 1000;
+      springRotateDelta.set({
+        x: 360,
+        y: 0,
+      });
+      firstPop.value = false;
+    }
+
+    springScale.set({ s: Math.min(scaleW, scaleH, scaleF) });
+    interactEnd(null, delay);
+  });
 };
 
 const retreat = () => {
@@ -254,6 +263,38 @@ watch(
     }
   }
 );
+
+const flipToBack = () => {
+  springRotateDelta.values.stiffness = SPRING_R.stiffness;
+  springRotateDelta.values.damping = SPRING_R.damping;
+  springRotateDelta.set({
+    x: 180,
+    y: springRotateDelta.values.y,
+  });
+};
+
+const flipToFront = () => {
+  springRotateDelta.values.stiffness = SPRING_R.stiffness;
+  springRotateDelta.values.damping = SPRING_R.damping;
+  springRotateDelta.set({
+    x: 0,
+    y: springRotateDelta.values.y,
+  });
+};
+
+// Watch for changes in 'backActive' prop
+watch(
+  () => props.backActive,
+  (newBackActive) => {
+    if (props.active) {
+      if (newBackActive) {
+        flipToBack();
+      } else {
+        flipToFront();
+      }
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -275,7 +316,7 @@ watch(
 .card {
   --radius: 4.55% / 3.5%;
   --back: #004177;
-  --glow: #69d1e9;
+  --glow: rgba(252, 7, 123, 0.3);
   z-index: calc(var(--s) * 100);
   transform: translate3d(0, 0, 0.1px);
   will-change: transform, visibility;
@@ -301,7 +342,7 @@ watch(
     }
 
     .card__rotator:focus {
-      box-shadow: 0px 10px 30px 3px black;
+      box-shadow: 0px 10px 30px 3px var(--glow);
     }
   }
 

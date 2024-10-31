@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Countdown from '@chenfengyuan/vue-countdown';
 
 // Function to calculate the time remaining until the start of the next month
@@ -21,6 +21,29 @@ const resetCountdown = () => {
 const formatTime = (value) => {
   return String(value).padStart(2, '0');
 };
+
+// Reference to swiper-container
+const swiperRef = ref(null);
+// Swiper instance
+let swiperInstance = null;
+
+// Get the Swiper instance when the component is mounted
+onMounted(() => {
+  swiperInstance = swiperRef.value.swiper;
+});
+
+// Navigation methods
+const slideNext = () => {
+  if (swiperInstance) {
+    swiperInstance.slideNext();
+  }
+};
+
+const slidePrev = () => {
+  if (swiperInstance) {
+    swiperInstance.slidePrev();
+  }
+};
 </script>
 
 <template>
@@ -35,21 +58,46 @@ const formatTime = (value) => {
               alt="" />
             <h3 class="text-sm">{{ $t('home.banner_title') }}</h3>
           </div>
-          <button
-            class="btn bg-white rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
-            {{ $t('btn.see_all') }}
-          </button>
+
+          <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1">
+              <button
+                class="btn bg-white rounded-3xl px-1 py-1 text-xs min-h-[auto] h-[auto] leading-none text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                @click="slidePrev">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button
+                class="btn bg-white rounded-3xl px-1 py-1 text-xs min-h-[auto] h-[auto] leading-none text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                @click="slideNext">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </button>
+            </div>
+
+            <button
+              class="btn bg-white rounded-3xl px-5 py-3 text-xs min-h-[auto] h-[auto] leading-none">
+              {{ $t('btn.see_all') }}
+            </button>
+          </div>
         </div>
 
-        <swiper-container class="main-banner" autoplay="true" loop="true">
+        <swiper-container
+          ref="swiperRef"
+          class="main-banner"
+          :autoplay="true"
+          :slides-per-view="1"
+          :autoplay-delay="5000"
+          :loop="true">
           <swiper-slide>
-            <img src="../assets/main-banner.png" alt="" />
+            <img src="@/assets/banners/banner_2.png" alt="" />
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/main-banner.png" alt="" />
+            <img src="@/assets/banners/main-banner.png" alt="" />
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/main-banner.png" alt="" />
+            <img src="@/assets/banners/banner_2.png" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="@/assets/banners/main-banner.png" alt="" />
           </swiper-slide>
         </swiper-container>
       </section>
